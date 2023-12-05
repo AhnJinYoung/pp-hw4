@@ -13,7 +13,18 @@ package pp202302.assign4.cellular
 object GameOfLife extends CellRule[Grid, (Int, Int), CellState]:
   val cellStates = Vector(CellState("0", 0), CellState("1", 1))
   val defaultState = cellStates(0)
+  def GridSum(grid : Grid[CellState]): Int = {
+      grid.cells.map(row => row.map(_.name.toInt).toList.sum).sum
+    }
+  
   def nextState(
       currState: CellState,
       neighborsStates: Grid[CellState]
-  ): CellState = ???
+  ): CellState = {
+    
+    currState.index match {
+      case 1 => if (GridSum(neighborsStates) == 2) || (GridSum(neighborsStates) == 3) then cellStates(1) else cellStates(0)
+      case 0 => if GridSum(neighborsStates) == 3 then cellStates(1) else cellStates(0)
+      case _ => defaultState
+    }
+  }

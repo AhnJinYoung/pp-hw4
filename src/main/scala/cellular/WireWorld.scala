@@ -23,4 +23,16 @@ object WireWorld extends CellRule[Grid, (Int, Int), CellState]:
   def nextState(
       currState: CellState,
       neighborsStates: Grid[CellState]
-  ): CellState = ???
+  ): CellState = {
+    val neighbors = neighborsStates.cells.flatten.map(_.index).toList
+    currState.index match {
+        case 0 => cellStates(0) 
+        case 1 => {
+          if (neighbors.count(_ == 2) == 1) || (neighbors.count(_ == 2) == 2) then cellStates(2) 
+          else cellStates(1)
+        }
+        case 2 => cellStates(3)
+        case 3 => cellStates(1)
+        case _ => cellStates(0)
+      }
+  }

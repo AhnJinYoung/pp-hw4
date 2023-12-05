@@ -43,5 +43,18 @@ enum Elementary extends CellRule[Vector, Int, CellState]:
           case 1 :: 1 :: 1 :: Nil => cellStates(0)
           case _                  => cellStates(0)
         }
-      case Elementary.RuleByCode(code) => ??? // TODO
+      case Elementary.RuleByCode(code) => { // TODO
+        val neighbors = neighborsStates.map(_.name.toInt).toList
+        neighbors match {
+        case 0 :: 0 :: 0 :: Nil => cellStates(code & 1)
+        case 0 :: 0 :: 1 :: Nil => cellStates((code >> 1) & 1)
+        case 0 :: 1 :: 0 :: Nil => cellStates((code >> 2) & 1)
+        case 0 :: 1 :: 1 :: Nil => cellStates((code >> 3) & 1)
+        case 1 :: 0 :: 0 :: Nil => cellStates((code >> 4) & 1)
+        case 1 :: 0 :: 1 :: Nil => cellStates((code >> 5) & 1)
+        case 1 :: 1 :: 0 :: Nil => cellStates((code >> 6) & 1)
+        case 1 :: 1 :: 1 :: Nil => cellStates((code >> 7) & 1)
+        case _                  => cellStates(0)
+        }
+      }
     }
